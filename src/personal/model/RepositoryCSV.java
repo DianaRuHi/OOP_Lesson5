@@ -3,15 +3,14 @@ package personal.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepositoryFile implements Repository {
-    private UserMapper mapper = new UserMapper();
+public class RepositoryCSV implements Repository{
+    private UserMapperCSV mapper = new UserMapperCSV();
     private FileOperation fileOperation;
 
-    public RepositoryFile(FileOperation fileOperation) {
+    public RepositoryCSV(FileOperation fileOperation) {
         this.fileOperation = fileOperation;
     }
 
-    
     @Override
     public List<User> getAllUsers() {
         List<String> lines = fileOperation.readAllLines();
@@ -44,21 +43,16 @@ public class RepositoryFile implements Repository {
         return id;
     }
 
-    //
-    public void updateUser(User user) throws Exception{
+    @Override
+    public void updateUser(User user) throws Exception {
         deleteUser(user.getId());
         List<User> users = getAllUsers();
         saveUser(user, users);
-
+        
     }
 
-    private void saveUser(User user, List<User> users){
-        users.add(user);
-        saveUsers(users);
-    }
-
-    //
-    public void deleteUser(String id) throws Exception{
+    @Override
+    public void deleteUser(String id) throws Exception {
         List<User> users = getAllUsers(); 
         users.remove(findUser(id, users));
         saveUsers(users);
@@ -73,6 +67,11 @@ public class RepositoryFile implements Repository {
         throw new Exception("User not found");
     }
 
+    private void saveUser(User user, List<User> users){
+        users.add(user);
+        saveUsers(users);
+    }
+
     private void saveUsers(List <User> users){
         List<String> lines = new ArrayList<>();
         for (User item: users) {
@@ -81,5 +80,5 @@ public class RepositoryFile implements Repository {
         fileOperation.saveAllLines(lines);
 
     }
-
+    
 }

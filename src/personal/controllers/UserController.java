@@ -1,6 +1,7 @@
 package personal.controllers;
 
 import personal.model.Repository;
+import personal.model.RepositoryFile;
 import personal.model.User;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 public class UserController {
     private final Repository repository;
 
+    
     public UserController(Repository repository) {
         this.repository = repository;
     }
@@ -26,4 +28,18 @@ public class UserController {
 
         throw new Exception("User not found");
     }
+
+    public List<User> readUsers(){
+        return repository.getAllUsers();
+    }
+
+    public void editUser(User user) throws Exception{
+        repository.updateUser(user);
+    }
+
+    //
+    public void deleteUser(String id) throws Exception{
+        repository.deleteUser(id);
+    }
+
 }

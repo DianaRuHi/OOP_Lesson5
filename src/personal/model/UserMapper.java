@@ -10,3 +10,4 @@ public class UserMapper {
         return new User(lines[0], lines[1], lines[2], lines[3]);
     }
 }
+

@@ -13,7 +13,7 @@ public class ViewUser {
         this.userController = userController;
     }
 
-    public void run(){
+    public void run() throws Exception{
         Commands com = Commands.NONE;
 
         while (true) {
@@ -36,6 +36,19 @@ public class ViewUser {
                         throw new RuntimeException(e);
                     }
                     break;
+                case LIST:
+                    userController.readUsers().forEach(System.out::println);
+                    break;
+                case UPDATE:
+                    String idUpd = prompt("Идентификатор пользователя: ");
+                    String firstNameUpd = prompt("Имя: ");
+                    String lastNameUpd = prompt("Фамилия: ");
+                    String phoneUpd = prompt("Номер телефона: ");
+                    userController.editUser(new User(idUpd, firstNameUpd, lastNameUpd, phoneUpd));
+                    break;
+                case DELETE:
+                    String idDel = prompt("Идентификатор пользователя: ");
+                    userController.deleteUser(idDel);
             }
         }
     }
